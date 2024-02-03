@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "251828719012",
+    "project_id": "fir-app-16266",
+    "storage_bucket": "fir-app-16266.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251828719012:android:66d464c931d578c4948531",
+        "android_client_info": {
+          "package_name": "com.toscano.test2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV-3Q3uwBZNMOpOyUvt5oiolbHrmCBKMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
