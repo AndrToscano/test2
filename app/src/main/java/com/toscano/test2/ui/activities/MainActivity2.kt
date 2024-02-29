@@ -1,4 +1,4 @@
-package com.toscano.test2
+package com.toscano.test2.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +21,6 @@ class MainActivity2 : AppCompatActivity() {
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Damos valor a nuestra variable
-        auth = Firebase.auth
         getUserData()
         initListeners()
     }

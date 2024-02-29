@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <EditText
         android:id="@+id/etxUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
+        android:text="Ingese el usuario"
         app:layout_constraintBottom_toTopOf="@+id/etxPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -19,7 +20,8 @@
         android:id="@+id/etxPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
+        android:text="Ingrese su password"
         app:layout_constraintBottom_toTopOf="@+id/imgFinger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -61,6 +63,7 @@
             android:layout_width="150dp"
             android:layout_marginEnd="20dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/midnight_green"
             android:text="Registrarse" />
 
 
@@ -68,6 +71,7 @@
             android:id="@+id/btnSignIn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/midnight_green"
             android:text="Ingresar" />
     </LinearLayout>
 

@@ -1,4 +1,4 @@
-package com.toscano.test2
+package com.toscano.test2.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
@@ -18,14 +16,24 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.toscano.test2.R
 import com.toscano.test2.databinding.ActivityMainBinding
-import com.toscano.test2.viewmodels.MainViewModel
+import com.toscano.test2.ui.viewmodels.MainViewModel
 import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
-    //Declarar variable FireBase
-    private lateinit var auth: FirebaseAuth
+    //Usuario : juanb@gmail.com
+    //Clave: 123456
+
+    //Usuario : juanc@gmail.com
+    //Clave: 123456
+
+    //Usuario : juand@gmail.com
+    //Clave: 123456
+
+    //Usuario : juane@gmail.com
+    //Clave: 123456
 
     //Declara la variable Binding
     private lateinit var binding : ActivityMainBinding
@@ -44,18 +52,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-
 
         initListeners()
         initObservables()
-        authenticationDialog()
-        mainViewModel.checkBiometric(this)
+        //authenticationDialog()
+        //mainViewModel.checkBiometric(this)
     }
 
     public override fun onStart() {
         super.onStart()
+
+        /*
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -73,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             binding.imgFinger.visibility = View.GONE
             binding.txtInfo.text = getString(R.string.no_user)
         }
+         */
     }
 
 
@@ -86,12 +94,12 @@ class MainActivity : AppCompatActivity() {
 
         //Damos la accion de crear un usuario
         binding.btnSafeUser.setOnClickListener {
-            createNewUsers(binding.etxUser.text.toString(), binding.etxPassword.text.toString())
+            mainViewModel.createNewInUserWithEmailAndPassword(binding.etxUser.text.toString(), binding.etxPassword.text.toString())
         }
 
         //Damos la accion de ingresar con un usuario
         binding.btnSignIn.setOnClickListener {
-            createdUsers(binding.etxUser.text.toString(), binding.etxPassword.text.toString())
+            mainViewModel.signInUserWithEmailAndPassword(binding.etxUser.text.toString(), binding.etxPassword.text.toString())
         }
     }
 
@@ -125,14 +133,14 @@ class MainActivity : AppCompatActivity() {
             })
 
         //Dialogo de Autenticacion
-        /*
+
         promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric login for my app")
             .setSubtitle("Log in using your biometric credential")
             .setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
             .build()
-        */
 
+/*
         promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric login for my app")
             .setSubtitle("Log in using your biometric credential")
@@ -140,11 +148,22 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButtonText("Cancel")
             .build()
 
+ */
+
 
     }
 
     private fun initObservables(){
 
+
+        mainViewModel.user.observe(this){
+            startActivity(Intent(this, MainActivity2::class.java))
+        }
+
+        mainViewModel.error.observe(this){
+            Snackbar.make(this, binding.etxUser, it, Snackbar.LENGTH_LONG).show()
+        }
+/*
         mainViewModel.resultCheckBiometric.observe(this){
             when(it){
                 BiometricManager.BIOMETRIC_SUCCESS -> {
@@ -181,57 +200,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+ */
     }
-
-    private fun createNewUsers(user: String, password: String){
-        //Ingreso de Nuevos Usuarios
-        auth.createUserWithEmailAndPassword(binding.etxUser.text.toString(), binding.etxPassword.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "createUserWithEmail:success")
-
-                    val user = auth.currentUser
-
-                    Snackbar.make(this, binding.etxUser, "createUserWithEmail:success", Snackbar.LENGTH_LONG).show()
-
-                    binding.etxUser.text.clear()
-                    binding.etxPassword.text.clear()
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Snackbar.make(this, binding.etxUser, task.exception!!.message.toString(), Snackbar.LENGTH_LONG).show()
-
-                }
-            }
-    }
-
-    private fun createdUsers(email: String, password: String){
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "signInWithEmail:success")
-
-                    val user = auth.currentUser
-                    startActivity(Intent(this, MainActivity2::class.java))
-                }
-
-                else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "signInWithEmail:failure", task.exception)
-
-                    Snackbar.make(this,
-                        binding.etxUser,
-                        "signInWithEmail:failure",
-                        Snackbar.LENGTH_LONG,
-                    ).show()
-                }
-            }
-    }
-
     /*
     private fun checkBiometric(context: Context){
 
